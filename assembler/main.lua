@@ -1,10 +1,9 @@
-function love.load()
   out = {}
   local curin = 0
   local curvar = 100
   local varnam={}
   local lab = {}
-  for line in love.filesystem.lines("tocomp.txt") do
+  for line in io.lines("tocomp.txt") do
     local p = string.explode(line, ":")
     op = p[1]
     it= p[2]
@@ -43,22 +42,12 @@ function love.load()
       curin = curin + 1 
     end
   end
-  local file = love.filesystem.newFile("write.txt")
-  file:open('w')
+  local file = io.open("write.txt", "w")
   for i,v in pairs(out) do
-   local res = file:write(i..":"..v..'\n')
-   print ("res:", res)
-   print("v is: ",v)
+   file:write(i..":"..v..'\n')
   end
   file:close()
-end
- 
-function love.update(dt)
-
-end
-function love.draw()
-
-end
+  
 function string.explode(str, div)
     assert(type(str) == "string" and type(div) == "string", "invalid arguments")
     local o = {}

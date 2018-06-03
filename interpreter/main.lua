@@ -1,14 +1,15 @@
-function love.load(arg)
 pc=1
 ir=1
 ad=1
 ac=1
 out={1}
 inp=1
-ram={099, 398, 097, 397, 098, 196, 401, 601, 398, 097, 295, 794, 503, 800, [94]=0, [95]=1, [96]=3, [97]=10, [98]=0, [99]=5}
+for line in io.lines("torun.txt") do
+  local a = string.explode(line,":")
+  ram={[a[0]]=a[1]}
 end
-function love.update(dt)
- ir=ram[pc] % 100
+while true do
+ ir = ram[pc] % 100
  ad=math.floor((ram[pc])/100)
  if ir == 0 then
    ac = ram[ad]
@@ -33,6 +34,17 @@ function love.update(dt)
  end
  pc=pc+1
 end
-function love.draw(dt)
- 
+
+function string.explode(str, div)
+    assert(type(str) == "string" and type(div) == "string", "invalid arguments")
+    local o = {}
+    while true do
+        local pos1,pos2 = str:find(div)
+        if not pos1 then
+            o[#o+1] = str
+            break
+        end
+        o[#o+1],str = str:sub(1,pos1-1),str:sub(pos2+1)
+    end
+    return o
 end

@@ -1,5 +1,5 @@
 # littleman
-simple VM and assembler for it. (both in lua)
+simple VM and assembler for it. (both in lua) (javascript also available, see notes at bottom)
 
 To use assembler put code in 'tocomp.txt' (yes the name is wrong I will change it later) and run 'assembler/main.lua' the results are put in 'write.txt'
 
@@ -57,3 +57,8 @@ each line consists of a number, the first two digits represent the operation and
 6 = print value in array 'output' at position specified
 
 7 = if
+
+
+# Notes for javacript version
+
+(will be added after further testing)

@@ -1,70 +1,44 @@
-function littlmanvm() {
- this.assembler = function(program) {
-  var out = {}
-  var curin = 0
-  var curvar = 100
-  var varnam={}
-  var lab = {}
-  var p = 0
-  var it = 0
-  var op=0
-  program = program.split("\n");
-  for (var line of program) {
-    p = line.split(":")
-    op = p[0]
-    it= p[1]
-     if (op == "lab") {
-      lab[it] = curin
-     }
-    elseif (op == "var") {
-      p=it.split("=")
-      var a = p[0]
-      var b = p[1]
-      varnam[a] = curvar
-      out[curvar] = b
-      print(curvar, out[curvar])
-      curvar= curvar - 1
-    }
-  }
 
-  for (var line of program) {
-    var p = line.split(":")
-    op = p[0]
-    it= p[1]
-    if (op == "get") {
-      out[curin] = ((varnam[it]*100)+0)
-      curin = curin + 1 
-    }
-    elseif (op == "add") {
-      out[curin] = ((varnam[it]*100)+1)
-      curin = curin + 1 
-    }
-    elseif (op == "min") {
-      out[curin] = ((varnam[it]*100)+2)
-      curin = curin + 1 
-    }
-    elseif (op == "put") {
-      out[curin] = ((varnam[it]*100)+3)
-      curin = curin + 1 
-    }
-    elseif (op == "print") {
-      out[curin] = ((100)+4)
-      curin = curin + 1 
-      out[curin] = ((100)+6)
-      curin = curin + 1
-    }
-    elseif (op == "goto") {
-      out[curin] = ((lab[it]*100)+5)
-      curin = curin + 1 
-    }
-    elseif (op == "if") {
-      out[curin] = ((varnam[it]*100)+7)
-      curin = curin + 1 
-    }
-  }
-  return out;
-  }
- var this.blob = new Blob(["\
+function littlmanvm(){this.assembler=function(program){var out={}
+var curin=0
+var curvar=100
+var varnam={}
+var lab={}
+var p=0
+var it=0
+var op=0
+program=program.split("\n");for(var line of program){p=line.split(":")
+op=p[0]
+it=p[1]
+if(op=="lab"){lab[it]=curin}
+elseif(op=="var"){p=it.split("=")
+var a=p[0]
+var b=p[1]
+varnam[a]=curvar
+out[curvar]=b
+print(curvar,out[curvar])
+curvar=curvar-1}}
+for(var line of program){var p=line.split(":")
+op=p[0]
+it=p[1]
+if(op=="get"){out[curin]=((varnam[it]*100)+0)
+curin=curin+1}
+elseif(op=="add"){out[curin]=((varnam[it]*100)+1)
+curin=curin+1}
+elseif(op=="min"){out[curin]=((varnam[it]*100)+2)
+curin=curin+1}
+elseif(op=="put"){out[curin]=((varnam[it]*100)+3)
+curin=curin+1}
+elseif(op=="print"){out[curin]=((100)+4)
+curin=curin+1
+out[curin]=((100)+6)
+curin=curin+1}
+elseif(op=="goto"){out[curin]=((lab[it]*100)+5)
+curin=curin+1}
+elseif(op=="if"){out[curin]=((varnam[it]*100)+7)
+curin=curin+1}}
+return out;}
+var this.blob=new Blob(["\
 self.onmessage = function(e) {\
 program = e.data\
 var pc=1\
@@ -73,7 +47,7 @@ var ad=1\
 var ac=1\
 var out={1}\
 var inp=1\
-  program = program.split("\n");\
+  program = program.split(\"\n\");\
   for (var line of program) {\
     var a = line.split(":")\
   ram={[a[0]]=a[1]}\
@@ -112,12 +86,5 @@ while (true) {\
  }\
  pc=pc+1\
 }}\
- "]);
- var this.blobURL = window.URL.createObjectURL(this.blob);
- this.worker = new Worker(this.blobURL);
- 
- this.vm = function(program,outfunction) {
- worker.postMessage(program);
- worker.onmessage = outfunction(e);
- }
-}
+ "]);var this.blobURL=window.URL.createObjectURL(this.blob);
+ this.worker=new Worker(this.blobURL);this.vm=function(program,outfunction){worker.postMessage(program);worker.onmessage=outfunction(e);}}

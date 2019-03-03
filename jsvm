@@ -1,13 +1,16 @@
 function littlmanvm() {
  this.assembler = function(program) {
-  out = {}
+  var out = {}
   var curin = 0
   var curvar = 100
   var varnam={}
   var lab = {}
+  var p = 0
+  var it = 0
+  var op=0
   program = program.split("\n");
   for (var line of program) {
-    local p = line.split(":")
+    p = line.split(":")
     op = p[0]
     it= p[1]
      if (op == "lab") {
@@ -15,8 +18,8 @@ function littlmanvm() {
      }
     elseif (op == "var") {
       p=it.split("=")
-      local a = p[0]
-      local b = p[1]
+      var a = p[0]
+      var b = p[1]
       varnam[a] = curvar
       out[curvar] = b
       print(curvar, out[curvar])
@@ -25,7 +28,7 @@ function littlmanvm() {
   }
 
   for (var line of program) {
-    local p = line.split(":")
+    var p = line.split(":")
     op = p[0]
     it= p[1]
     if (op == "get") {
@@ -61,54 +64,54 @@ function littlmanvm() {
   }
   return out;
   }
- var this.blob = new Blob(["
-self.onmessage = function(e) {
-program = e.data
-var pc=1
-var ir=1
-var ad=1
-var ac=1
-var out={1}
-var inp=1
-  program = program.split("\n");
-  for (var line of program) {
-    local a = line.split(":")
-  ram={[a[0]]=a[1]}
-  }
-while (true) {
- ir = ram[pc] % 100
- ad=math.floor((ram[pc])/100)
- if (ir == 0) {
-   ac = ram[ad]
- }
- elseif (ir == 1) {
-   ac= ac + ram[ad]
- }
- elseif (ir == 2){
-   ac= ac - ram[ad]
- }
- elseif (ir == 3) {
-   ram[ad] = ac
- }
- elseif (ir == 4){
-   out[ad]=ac
- }
- elseif ir == 5){
-   pc= ad
- }
- elseif (ir == 6) {
-   self.postMessage(out[ad]);
- }
- elseif (ir == 7) {
-   if (ac == ram[ad]) {
-     pc=pc+1
-   }
-  }
- elseif (ir == 8) {
-   self.close()
- }
- pc=pc+1
-}}
+ var this.blob = new Blob(["\
+self.onmessage = function(e) {\
+program = e.data\
+var pc=1\
+var ir=1\
+var ad=1\
+var ac=1\
+var out={1}\
+var inp=1\
+  program = program.split("\n");\
+  for (var line of program) {\
+    var a = line.split(":")\
+  ram={[a[0]]=a[1]}\
+  }\
+while (true) {\
+ ir = ram[pc] % 100\
+ ad=math.floor((ram[pc])/100)\
+ if (ir == 0) {\
+   ac = ram[ad]\
+ }\
+ elseif (ir == 1) {\
+   ac= ac + ram[ad]\
+ }\
+ elseif (ir == 2){\
+   ac= ac - ram[ad]\
+ }\
+ elseif (ir == 3) {\
+   ram[ad] = ac\
+ }\
+ elseif (ir == 4){\
+   out[ad]=ac\
+ }\
+ elseif ir == 5){\
+   pc= ad\
+ }\
+ elseif (ir == 6) {\
+   self.postMessage(out[ad]);\
+ }\
+ elseif (ir == 7) {\
+   if (ac == ram[ad]) {\
+     pc=pc+1\
+   }\
+  }\
+ elseif (ir == 8) {\
+   self.close()\
+ }\
+ pc=pc+1\
+}}\
  "]);
  var this.blobURL = window.URL.createObjectURL(this.blob);
  this.worker = new Worker(this.blobURL);
